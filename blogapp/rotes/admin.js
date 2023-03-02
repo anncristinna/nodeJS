@@ -3,6 +3,8 @@ const router = express.Router()
 const mongoose = require('mongoose')
 require('../models/Categoria')
 const Categorias = mongoose.model("categorias") //anotar
+require('../models/Postagens')
+const Postagem = mongoose.model("postagens")
 
 router.get('/', (req, res) => {
     res.render("admin/index.handlebars")
@@ -78,6 +80,53 @@ router.get('/categorias/edit/:id', (req, res) => {
             })
         })
 })
-    
 
+router.post('/categorias/deletar', (req, res) => {
+    Categorias.deleteOne({_id: req.body.id}).then(() => {
+        req.flash("sucess_msg", "Categoria deletada com sucesso")
+        res.redirect('/admin/categorias')
+    }).catch((err) => {
+        req.flash("error_msg", "Erro ao deletar categoria!")
+        res.redirect('/admin/categorias')
+    })
+})
+
+router.get('/postagens', (req, res) => {
+    res.render('admin/postagens')
+})
+
+router.get('/postagens/add', (req, res) => {
+    Categorias.find().lean().then((categorias) => {
+        res.render('admin/postagensadd', {categorias: categorias})
+    }).catch((err) => {
+        req.flash("error_msg", "Não há categoria registada!")
+    })
+})
+
+router.post('/postagens/nova', (req, res) => {
+    let erros = []
+
+    if(req.body.categoria == "0"){
+        erros.push({texto: "Nenhuma categoria registrada!"})
+    }
+
+    if(erros.length > 0){
+        res.render('admin/postagensadd', {erros: erros})
+    } else {
+        const novaPostagem = {
+            titulo: req.body.titulo,
+            descricao: req.body.descricao,
+            conteudo: req.body.conteudo,
+            slug: req.body.slug,
+            categoria: req.body.categoria,
+        }
+        new Postagem(novaPostagem).save().then(() => {
+            req.flash("success_msg", "Postagem criada com sucesso!")
+            res.redirect('/admin/postagens')
+        }).catch((err) => {
+            req.flash("error_msg", "Não foi possível criar postagem!")
+            res.redirect('/admin/postagens')
+        })
+    }
+})
 module.exports = router

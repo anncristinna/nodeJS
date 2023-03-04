@@ -92,7 +92,13 @@ router.post('/categorias/deletar', (req, res) => {
 })
 
 router.get('/postagens', (req, res) => {
-    res.render('admin/postagens')
+    Postagem.find().lean().populate("categoria").sort({data: "desc"}).then((postagens) => {
+        res.render('admin/postagens', {postagens: postagens})
+    }).catch((err) => {
+        req.flash("error_msg", "Error ao exibir postagens!")
+        res.redirect('admin/postagens/add')
+    })
+    
 })
 
 router.get('/postagens/add', (req, res) => {
@@ -105,6 +111,22 @@ router.get('/postagens/add', (req, res) => {
 
 router.post('/postagens/nova', (req, res) => {
     let erros = []
+
+    if(!req.body.titulo || typeof req.body.titulo == "undefined" || req.body.titulo == "null"){
+        erros.push({texto: "Campo de títuloo vazio!"})
+    }
+
+    if(!req.body.descricao || typeof req.body.descricao == "undefined" || req.body.descricao == "null"){
+        erros.push({texto: "Campo de descrição vazio!"})
+    }
+
+    if(!req.body.slug || typeof req.body.slug == "undefined" || req.body.slug == "null"){
+        erros.push({texto: "Campo de slug vazio!"})
+    }
+
+    if(!req.body.conteudo || typeof req.body.conteudo == "undefined" || req.body.conteudo == "null"){
+        erros.push({texto: "Campo de conteudo vazio!"})
+    }
 
     if(req.body.categoria == "0"){
         erros.push({texto: "Nenhuma categoria registrada!"})

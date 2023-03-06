@@ -154,7 +154,7 @@ router.post('/postagens/nova', (req, res) => {
 
 router.get('/postagens/edit/:id', (req, res) => {
    Postagem.findOne({_id: req.params.id}).lean().populate('categoria').then((postagens) => {
-        Categorias.findOne().lean().then((categorias) => {
+        Categorias.find().lean().then((categorias) => {
             res.render('admin/editpostagens', {categorias: categorias, postagens: postagens})
         }).catch((err) => {
             req.flash("error_msg", "Houve um erro ao listar as categorias!")
@@ -167,7 +167,7 @@ router.get('/postagens/edit/:id', (req, res) => {
 })
 
 router.post('/postagens/edit', (req, res) => {
-    Postagem.findOne({_id: req.body.id}).lean().then((postagem) => {
+    Postagem.findOne({_id: req.body.id}).then((postagem) => {
         postagem.titulo = req.body.titulo
         postagem.slug = req.body.slug
         postagem.descricao = req.body.descricao
@@ -182,7 +182,7 @@ router.post('/postagens/edit', (req, res) => {
             res.redirect('/admin/postagens')
         })
     }).catch((err) => {
-        req.flash("error_msg", "Houve um erro na edição")
+        req.flash("error_msg", "Houve um erro na edição" + err)
         res.redirect('/admin/postagens')
     })
 })

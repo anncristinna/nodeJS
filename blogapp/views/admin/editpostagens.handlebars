@@ -20,7 +20,7 @@
             <label for="categoria">Categoria:</label>
             <select name="categoria" class="custom-select">
                 {{#each categorias}}
-                    <option value="{{this.categoria._id}}" selected>{{this.categoria.nome}}</option>
+                    <option value="{{_id}}" selected>{{nome}}</option>
                     {{else}}
                     <option value="0">Nenhuma categoria registrada!</option>
                 {{/each}}

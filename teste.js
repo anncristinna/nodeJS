@@ -19,3 +19,8 @@ console.log(nomes)
 
 const nomes2 = [...nomes, "cristina"]
 console.log(nomes2)
+
+console.log(nomes.slice(0,4))
+console.log(nomes.slice(2, 4))
+console.log(nomes)
+console.log(nomes.slice(1, -2))

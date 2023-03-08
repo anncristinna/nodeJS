@@ -3,6 +3,7 @@ const router = express.Router()
 const mongoose = require('mongoose')
 require('../models/Usuario')
 const Usuario = mongoose.model('usuarios')
+const bcrypt = require('bcryptjs')
 
 
 router.get('/registro', (req, res) => {
@@ -35,8 +36,44 @@ router.post('/registro', (req, res) => {
     if(erros.length > 0){
         res.render('usuarios/registro', {erros: erros})
     }else {
-        //depois
+        Usuario.findOne({email: req.body.email}).then((usuario) => {
+            if(usuario){
+                req.flash("error_msg", "Esse e-mail já foi cadastrado! Tente novamente.")
+                res.redirect('/usuarios/rergistro')
+            } else{
+                const novoUsuario = new Usuario({
+                    nome: req.body.nome,
+                    email: req.body.email,
+                    senha: req.body.senha
+                })
+
+                bcrypt.genSalt(10, (erro, salt) => {
+                    bcrypt.hash(novoUsuario.senha, salt, (erro, hash) => {
+                        if(erro){
+                            req.flash("error_msg", "Houve um erro interno...")
+                            res.redirect('/')
+                        } 
+                        novoUsuario.senha = hash
+
+                        novoUsuario.save().then(() => {
+                            req.flash("success_msg", "Usuário criado com sucesso!")
+                            res.redirect('/')
+                        }).catch((err) => {
+                            req.flash("error_msg", "Houve um erro ao criar o usuário.")
+                            res.redirect('/usuarios/registro')
+                        })
+                    })
+                })
+            }
+        }).catch((err) => {
+            req.flash("error_msg", "Houve um erro interno!" + err)
+            res.redirect('/')
+        })
     }
+})
+
+router.get('/login', (req, res) => {
+    res.render('usuarios/login')
 })
 
 module.exports = router

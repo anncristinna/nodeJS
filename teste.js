@@ -24,3 +24,20 @@ console.log(nomes.slice(0,4))
 console.log(nomes.slice(2, 4))
 console.log(nomes)
 console.log(nomes.slice(1, -2))
+console.log(nomes.at(1))
+console.log(nomes.at(-1))
+
+const nums = [1,2,4,5,6,7,8,9]
+nums.copyWithin(0, 2, 4)
+console.log(nums) // imprimirá 4,5,4,5,6,7,8,9
+
+var ear = nums.entries()
+console.log(ear.next().value)
+
+const acimaDeDezoito = (valor) => {
+    return valor >= 18
+}
+const idades = [12, 16, 19, 20, 21]
+const idades2 = [18, 30, 23, 45]
+console.log(idades.every(acimaDeDezoito)) // false
+console.log(idades2.every(acimaDeDezoito)) // true

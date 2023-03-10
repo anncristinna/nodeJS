@@ -37,7 +37,28 @@ console.log(ear.next().value)
 const acimaDeDezoito = (valor) => {
     return valor >= 18
 }
-const idades = [12, 16, 19, 20, 21]
+const idades = [12, 16, 19, 20, 21, 14, 15, 17]
 const idades2 = [18, 30, 23, 45]
 console.log(idades.every(acimaDeDezoito)) // false
 console.log(idades2.every(acimaDeDezoito)) // true
+idades.fill(26, 1, 2)
+console.log(idades)
+console.log(nomes)
+nomes.fill("dudinha", 4, 5)
+console.log(nomes)
+const dudinha = nomes.find((nome) => nome == 'dudinha')
+console.log(dudinha)
+const deMenor = idades.find((idade) => idade < 18)
+console.log(deMenor)
+const deMenores = idades.filter((idade) => idade < 18)
+console.log(deMenores)
+console.log(nomes.findIndex((nome) => nome == 'dudinha')) // imprimirá 4
+
+function ePar(valor){
+    return valor % 2 == 0
+}
+
+const numeros = [15,17,19,20]
+console.log(numeros.findIndex(ePar)) //imprimira 3
+console.log( numeros.findLastIndex(ePar))
+console.log(ultimoPar)

@@ -60,5 +60,3 @@ function ePar(valor){
 
 const numeros = [15,17,19,20]
 console.log(numeros.findIndex(ePar)) //imprimira 3
-console.log( numeros.findLastIndex(ePar))
-console.log(ultimoPar)

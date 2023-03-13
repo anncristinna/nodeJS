@@ -10,5 +10,24 @@
     "mongoose": "^6.10.0",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0"
-  }
+  },
+  "name": "nodejs",
+  "description": "Projetos de NodeJS",
+  "version": "1.0.0",
+  "main": "aprendendo.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anncristinna/nodeJS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anncristinna/nodeJS/issues"
+  },
+  "homepage": "https://github.com/anncristinna/nodeJS#readme"
 }
